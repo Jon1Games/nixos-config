@@ -1,19 +1,7 @@
 { pkgs, ... }:
 {
   fonts = {
-    fontconfig = {
-      enable = true;
-
-      defaultFonts = {
-        monospace = [
-          "Maple Mono"
-          "JetBrainsMono Nerd Font"
-        ];
-        sansSerif = [ "Public Sans" ];
-        serif = [ "Noto Serif" ];
-        emoji = [ "Noto Color Emoji" ];
-      };
-    };
+    fontconfig.enable = true;
 
     packages = with pkgs; [
       maple-mono-custom
