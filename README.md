@@ -151,12 +151,12 @@ programs.git = {
    ...
 };
 ```
-- **nextcloud**: Login to your NC-Server and setup syncing foldern :)
+- **nextcloud**: Login to your NC-Server and setup folder syncing :)
 - **KeePassXC**: for me `/run/user/1000/gnupg/S.gpg-agent.ssh` was discovered as SSH_ATUH_SOCK, but gpg-agent (with SSh-support) does not work with KeePass so i set `/run/user/1000/ssh-agent`
 
 # 👥 Credits
 
-I used and leaned many of [Frost_Phoenix nixos-config](https://github.com/Frost-Phoenix/nixos-config). Also look at his [Credits](https://github.com/Frost-Phoenix/nixos-config#-credits)!.
+I used and leaned many of [Frost_Phoenix nixos-config](https://github.com/Frost-Phoenix/nixos-config). Also look at his [Credits](https://github.com/Frost-Phoenix/nixos-config#-credits)!
 
 # 📜 License
 
