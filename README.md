@@ -1,91 +1,3 @@
-<h1 align="center">
-   <img src="./.github/assets/logo/nixos-logo.png" width="100px" /> 
-   <br>
-      Frost-Phoenix's Flakes 
-   <br>
-      <img src="./.github/assets/pallet/pallet-0.png" width="600px" /> <br>
-
-   <div align="center">
-      <p></p>
-      <div align="center">
-         <a href="https://github.com/Frost-Phoenix/nixos-config/stargazers">
-            <img src="https://img.shields.io/github/stars/Frost-Phoenix/nixos-config?color=FABD2F&labelColor=282828&style=for-the-badge&logo=starship&logoColor=FABD2F">
-         </a>
-         <a href="https://github.com/Frost-Phoenix/nixos-config/">
-            <img src="https://img.shields.io/github/repo-size/Frost-Phoenix/nixos-config?color=B16286&labelColor=282828&style=for-the-badge&logo=github&logoColor=B16286">
-         </a>
-         <a = href="https://nixos.org">
-            <img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=for-the-badge&labelColor=282828&logo=NixOS&logoColor=458588&color=458588">
-         </a>
-         <a href="https://github.com/Frost-Phoenix/nixos-config/blob/main/LICENSE">
-            <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=282828&colorB=98971A&logo=unlicense&logoColor=98971A&"/>
-         </a>
-      </div>
-      <br>
-   </div>
-</h1>
-
-### 🖼️ Gallery
-
-<p align="center">
-   <img src="./.github/assets/screenshots/1.png" style="margin-bottom: 15px;"/> <br>
-   <img src="./.github/assets/screenshots/2.png" style="margin-bottom: 15px;"/> <br>
-   <img src="./.github/assets/screenshots/3.png" style="margin-bottom: 15px;"/> <br>
-   <img src="./.github/assets/screenshots/4.png" style="margin-bottom: 15px;"/> <br>
-   Screenshots last updated <b>2025-12-25</b>
-</p>
-
-<details>
-<summary>
-   Waybar (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/waybar.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Swaylock (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/swaylock.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Hyprlock (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/hyprlock.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Power menu (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/power_menu.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Launcher (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/launcher.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Wallpapers picker (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/wallpaper_picker.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Notification (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/notification.png" style="margin-bottom: 15px;" /> <br>
-</details>
-<details>
-<summary>
-   Notification center (EXPAND)
-</summary>
-   <img src="./.github/assets/screenshots/notification_center.png" style="margin-bottom: 15px;" /> <br>
-</details>
-
-You can find my previous Catppuccin rice [here](https://github.com/Frost-Phoenix/nixos-config/tree/catppuccin) (outdated).
-
 # 🗃️ Overview
 
 > [!IMPORTANT]
@@ -106,15 +18,13 @@ You can find my previous Catppuccin rice [here](https://github.com/Frost-Phoenix
 
 -   [flake.nix](flake.nix) Base of the configuration
 -   [hosts](hosts) Per-host configurations that contain machine specific configurations
-    - [desktop](hosts/desktop/) Desktop specific configuration
-    - [laptop](hosts/laptop/) Laptop specific configuration
-    - [vm](hosts/vm/) VM specific configuration
+    - [_presets](hosts/_presets/) stored presets
 -   [modules](modules) Modularized NixOS configurations
     -   [core](modules/core/) Core NixOS configuration
     -   [homes](modules/home/) My [Home-Manager](https://github.com/nix-community/home-manager) configuration
 -   [pkgs](pkgs) Custom packages build from source
 -   [scripts](scripts) Custom shell scripts
--   [wallpapers](wallpapers/) Wallpapers collection
+-   [backgounds](wallpapers/) collection of backgrounds
 
 ## 🛠️ System Components & Applications
 
@@ -136,11 +46,8 @@ You can find my previous Catppuccin rice [here](https://github.com/Frost-Phoenix
 | **Cursor**                  | [Bibata-Modern-Ice][Bibata-Modern-Ice] |
 | **Icons**                   | [Papirus-Dark][Papirus-Dark] |
 | **Lockscreen**              | [Hyprlock][Hyprlock] + [Swaylock-effects][Swaylock-effects] |
-| **Image Viewer**            | [imv][imv] |
-| **Media Player**            | [mpv][mpv] |
 | **Music Player**            | [audacious][audacious] |
 | **Screenshot Software**     | [grimblast][grimblast] |
-| **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
 | **Clipboard**               | [wl-clip-persist][wl-clip-persist] |
 | **Color Picker**            | [hyprpicker][hyprpicker] |
 
@@ -169,18 +76,6 @@ All of the scripts are in the [`./scripts/scripts/`](./scripts/scripts/) folder 
 Shell scripts are automatically discovered and exported as standalone packages. The package name becomes the script base name without its extension (i.e., `ascii.sh` will become the `ascii` command).
 
 **Note:** Scripts must have names that end with `.sh` and be tracked by git to be automatically detected.
- 
-**Since scripts are exposed as packages, you can**:
-- Run them directly from the terminal (e.g., `ascii`)
-- Bind them to keybindings (see [binds.nix](./modules/home/hyprland/binds.nix) for examples)
-- Call them from other scripts or automation tools
-
-**To add your own script**:
-1. Add a new `.sh` file to `./scripts/scripts/`
-2. Ensure it's executable (chmod +x)
-3. Add it to git (git add `./scripts/scripts/<name>.sh`)
-4. Rebuild your configuration (`nfs` or `nft`)
-5. The script will be automatically available as a command
 
 **Location:** [`./scripts/`](./scripts/)
 
@@ -212,27 +107,20 @@ Here are some of the main keybinds:
 > [!CAUTION]
 > This is a **personal** configuration. Use at your own risk. I am not responsible for any issues that may arise from using this setup. Always review and adapt the configuration to your needs before installation.
 
-> [!WARNING]
-> **VM Usage Notice:** Hyprland does **not** officially support virtual machines. While it often works, you may encounter graphical issues, performance problems, or complete incompatibility depending on your VM configuration.
->
-> If you wish to test this configuration in a VM, please review Hyprland's [VM guide](https://wiki.hypr.land/Getting-Started/Master-Tutorial/#vm) for setup recommendations and known limitations.
-
 ### Installation Steps
 
 #### 1. **Install NixOS**
 First, install NixOS using any [graphical ISO](https://nixos.org/download.html#nixos-iso).
 
-*Tested with the GNOME installer using the "No desktop" option*
-
 #### 2. **Clone the Repository**
 
 ```bash
 nix-shell -p git
-git clone https://github.com/Frost-Phoenix/nixos-config
+git clone https://github.com/Jon1Games/nixos-config
 cd nixos-config
 ```
-
-The configuration expects the repo to be located at `$HOME/nixos-config`.
+> [!IMPORTANT]
+> The configuration expects the repo to be located at `$HOME/nixos-config`.
 
 #### 3. **Run the Install Script**
 
@@ -245,17 +133,6 @@ The configuration expects the repo to be located at `$HOME/nixos-config`.
 
 The script will guide you through host selection and apply the configuration.
 
-The installation phase can take quite some time depending on your machine.
-
-> [!NOTE]
-> If the build gets stuck , due to RAM constraints (see [PR #30](https://github.com/Frost-Phoenix/nixos-config/pull/30)), you may need to edit the script to limit CPU cores:
->
-> ```diff
-> # Change in install.sh:
-> - sudo nixos-rebuild switch --flake .#${HOST}
-> + sudo nixos-rebuild switch --cores 4 --flake .#${HOST}
-> ```
-
 #### 4. **Reboot**
 
 After the installation completes, reboot your system. If the installation was successful, you should be greeted by Hyprlock.
@@ -265,7 +142,6 @@ After the installation completes, reboot your system. If the installation was su
 Some manual configuration is still required:
 
 - **Browser**: Configure your browser extensions, settings, etc. (for now, all browser configuration is done manually)
-- **Aseprite Themes**: Import themes from aseprite [themes folder](./modules/home/aseprite/themes/)
 - **Git Identity**: Update the [git.nix](./modules/home/git.nix) file with your name and email
 ```nix
 programs.git = {
@@ -275,27 +151,12 @@ programs.git = {
    ...
 };
 ```
+- **nextcloud**: Login to your NC-Server and setup syncing foldern :)
+- **KeePassXC**: for me `/run/user/1000/gnupg/S.gpg-agent.ssh` was discovered as SSH_ATUH_SOCK, but gpg-agent (with SSh-support) does not work with KeePass so i set `/run/user/1000/ssh-agent`
 
 # 👥 Credits
 
-Other dotfiles that I ~~copied~~ learned from:
-
-- Nix Flakes
-  - [nomadics9/NixOS-Flake](https://github.com/nomadics9/NixOS-Flake): This is where I start my nixos / hyprland journey.
-  - [samiulbasirfahim/Flakes](https://github.com/samiulbasirfahim/Flakes): General flake / files structure
-  - [justinlime/dotfiles](https://github.com/justinlime/dotfiles): Mainly waybar (old design)
-  - [skiletro/nixfiles](https://github.com/skiletro/nixfiles): Vscodium config (that prevent it to crash)
-  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
-  - [tluijken/.dotfiles](https://github.com/tluijken/.dotfiles): base rofi config
-  - [mrh/dotfiles](https://codeberg.org/mrh/dotfiles): base waybar config
-
-- README
-  - [ryan4yin/nix-config](https://github.com/ryan4yin/nix-config)
-  - [NotAShelf/nyx](https://github.com/NotAShelf/nyx)
-  - [sioodmy/dotfiles](https://github.com/sioodmy/dotfiles)
-  - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
-
-- And many others I probably forgot to mention.
+I used and leaned many of [Frost_Phoenix nixos-config](https://github.com/Frost-Phoenix/nixos-config). Also look at his [Credits](https://github.com/Frost-Phoenix/nixos-config#-credits)!.
 
 # 📜 License
 
