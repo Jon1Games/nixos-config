@@ -1,5 +1,10 @@
 { pkgs, ... }:
 {
+
+  environment.sessionVariables = {
+    WALLPAPER_PATH = "/home/jon1games/nixos-config/backgrounds/forest.jpg";
+  };
+
   fonts.fontconfig.defaultFonts = {
     monospace = [
       "Maple Mono"
