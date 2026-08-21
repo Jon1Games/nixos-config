@@ -19,14 +19,6 @@
 
       scrollback-limit = 100000000;
 
-      ##### Theme #####
-      theme = "gruvbox";
-      background-opacity = 0.5;
-      adjust-cursor-thickness = 1;
-
-      selection-clear-on-copy = true;
-      mouse-hide-while-typing = true;
-
       ##### Window #####;
       window-padding-balance = true;
       window-padding-color = "extend";
