@@ -13,7 +13,12 @@
       allowedUDPPorts = [
       ];
     };
+    networkmanager.plugins = with pkgs; [
+      networkmanager-sstp
+    ];
   };
 
-  environment.systemPackages = with pkgs; [ networkmanagerapplet ];
+  environment.systemPackages = with pkgs; [
+    networkmanagerapplet
+  ];
 }
