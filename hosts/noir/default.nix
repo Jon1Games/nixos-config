@@ -4,7 +4,8 @@
     ./hardware-configuration.nix
     ./../../modules/core
 
-    ./../../modules/themes/forest.nix
+    #./../../modules/themes/forest.nix
+    ./../../modules/themes/rimuru.nix
   ];
 
   powerManagement.cpuFreqGovernor = "performance";
