@@ -16,10 +16,6 @@
   };
 
   home-manager.users.jon1games = {
-    imports = [
-      ./../home/zsh/themes/p10k.nix
-    ];
-
     programs.ghostty.settings = {
       theme = "gruvbox";
       background-opacity = 0.5;
@@ -28,5 +24,7 @@
       selection-clear-on-copy = true;
       mouse-hide-while-typing = true;
     };
+
+    home.file.".p10k.zsh".source = ./.forest.zsh;
   };
 }

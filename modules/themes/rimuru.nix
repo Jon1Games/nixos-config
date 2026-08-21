@@ -28,5 +28,7 @@
       selection-clear-on-copy = true;
       mouse-hide-while-typing = true;
     };
+
+    home.file.".p10k.zsh".source = ./.rimuru.zsh;
   };
 }
