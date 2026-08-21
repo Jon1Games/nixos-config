@@ -5,9 +5,7 @@
   ];
 
   programs.firefox.enable = true;
-  programs.firefox.nativeMessagingHosts = [
-    pkgs.keepassxc
-  ];
+  programs.firefox.nativeMessagingHosts.keepassxc = true;  
 
   services.ssh-agent = {
     enable = true;

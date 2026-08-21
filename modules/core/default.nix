@@ -21,6 +21,5 @@
     #./virtualization.nix	# KVM / Docker
     #./qmk.nix			# VIA, VIAl, udev-rules
     ./piper.nix			# Gamingmouse
-    ./keepass.nix
   ];
 }
