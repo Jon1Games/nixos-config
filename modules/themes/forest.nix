@@ -1,9 +1,5 @@
-{ pkgs, ... }:
+{ pkgs, host, ... }:
 {
-
-  imporot = [
-    #./../home/zsh/themes/p10k.nix 
-  ];
 
   environment.sessionVariables = {
     WALLPAPER_PATH = "/home/jon1games/nixos-config/backgrounds/forest.jpg";
@@ -19,12 +15,18 @@
     emoji = [ "Noto Color Emoji" ];
   };
 
-  programs.ghostty.settings = {
-    theme = "gruvbox";
-    background-opacity = 0.5;
-    adjust-cursor-thickness = 1;
+  home-manager.users.jon1games = {
+    imports = [
+      ./../home/zsh/themes/p10k.nix
+    ];
 
-    selection-clear-on-copy = true;
-    mouse-hide-while-typing = true;
+    programs.ghostty.settings = {
+      theme = "gruvbox";
+      background-opacity = 0.5;
+      adjust-cursor-thickness = 1;
+
+      selection-clear-on-copy = true;
+      mouse-hide-while-typing = true;
+    };
   };
 }
