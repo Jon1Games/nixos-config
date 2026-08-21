@@ -2,7 +2,7 @@
 {
 
   environment.sessionVariables = {
-    WALLPAPER_PATH = "/home/jon1games/nixos-config/backgrounds/rimuru.jpg";
+    WALLPAPER_PATH = "/home/jon1games/nixos-config/backgrounds/rimuru_dimmed.jpg";
   };
 
   fonts.fontconfig.defaultFonts = {
@@ -16,10 +16,6 @@
   };
 
   home-manager.users.jon1games = {
-    imports = [
-      ./../home/zsh/themes/p10k.nix
-    ];
-
     programs.ghostty.settings = {
       theme = "gruvbox";
       background-opacity = 0.5;
