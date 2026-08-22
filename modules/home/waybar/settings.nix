@@ -151,10 +151,10 @@ in
     };
     "custom/launcher" = {
       format = "";
-      on-click = "random-wallpaper";
-      on-click-right = "rofi -show drun";
-      tooltip = "true";
-      tooltip-format = "Random Wallpaper";
+      on-click = "rofi -show drun";
+      on-click-right = "init-wallpaper";
+      tooltip = "false";
+      tooltip-format = "";
     };
     "custom/notification" = {
       tooltip = true;
