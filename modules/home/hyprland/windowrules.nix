@@ -24,17 +24,6 @@
       "match:title ^(Picture-in-Picture)$, pin on"
       "match:title ^(Picture-in-Picture)$, float on"
 
-      "match:class ^(zen-beta)$, workspace 1"
-      "match:class ^(codium)$, workspace 3"
-      "match:class ^(Gimp-2.10)$, workspace 4"
-      "match:class ^(Aseprite)$, workspace 4"
-      "match:class ^(Audacious)$, workspace 5"
-      "match:class ^(spotify)$, workspace 5"
-      "match:class ^(com.obsproject.Studio)$, workspace 8"
-      "match:class ^(discord)$, workspace 10"
-      "match:class ^(WebCord)$, workspace 10"
-      "match:class ^(vesktop)$, workspace 10"
-
       "match:class ^(mpv)$, idle_inhibit focus"
       "match:class ^(zen-beta)$, match:title ^(.*YouTube.*)$, idle_inhibit focus"
       "match:class ^(zen)$, idle_inhibit fullscreen"
