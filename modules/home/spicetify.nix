@@ -8,8 +8,6 @@ in
 
   programs.spicetify = {
     enable = true;
-    theme = spicetifyPkgs.themes.text;
-
     enabledExtensions = with spicetifyPkgs.extensions; [
       keyboardShortcut
       shuffle
