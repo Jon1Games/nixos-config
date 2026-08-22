@@ -25,6 +25,21 @@
       mouse-hide-while-typing = true;
     };
 
+    programs.vscode.userSettings = {
+      "workbench.colorTheme" = "Dracula";
+      "workbench.iconTheme" = "vs-seti";
+      "editor.fontFamily" = "'Maple Mono', 'JetBrainsMono Nerd Font', monospace";
+      "editor.fontSize" = 12;
+      "editor.lineHeight" = 1.5;
+      "editor.letterSpacing" = 0.5;
+      "editor.cursorBlinking" = "phase";
+      "editor.minimap.enabled" = false;
+      "workbench.sideBar.location" = "left";
+      "workbench.activityBar.location" = "side";
+      "editor.bracketPairColorization.enabled" = true;
+      "editor.guides.bracketPairs" = "active";
+    };
+
     home.file.".p10k.zsh".source = ./.rimuru.zsh;
 
     programs.spicetify = {
@@ -55,12 +70,5 @@
         misc               = "e5c07b"; 
       };
     };
-    wayland.windowManager.hyprland.settings.windowrule = [
-      {
-        name = "spotify-transparency";
-        "match:class" = "^(Spotify)$";
-        opacity = "0.825 0.825";
-      }
-    ];
   };
 }

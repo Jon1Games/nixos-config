@@ -55,12 +55,5 @@
         misc               = "dfb15b"; # Golden sunbeam gold (for tracking meters and highlights)
       };
     };
-    wayland.windowManager.hyprland.settings.windowrule = [
-      {
-        name = "spotify-transparency";
-        "match:class" = "^(Spotify)$";
-        opacity = "0.65 0.65";
-      }
-    ];
   };
 }
