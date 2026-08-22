@@ -59,7 +59,7 @@
       {
         name = "spotify-transparency";
         "match:class" = "^(Spotify)$";
-        opacity = "0.85 0.85";
+        opacity = "0.825 0.825";
       }
     ];
   };
