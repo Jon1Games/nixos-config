@@ -3,7 +3,7 @@
   home.packages = with pkgs; [
     easyeffects
     pulsemixer
-    carla
+    #carla      # Keyboard auto software
     qpwgraph
   ];
 
