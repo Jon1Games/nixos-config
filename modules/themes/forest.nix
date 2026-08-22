@@ -55,5 +55,8 @@
         misc               = "dfb15b"; # Golden sunbeam gold (for tracking meters and highlights)
       };
     };
+    wayland.windowManager.hyprland.settings.windowrule = [
+      "match:class ^(code)$, opacity 0.90 0.85"
+    ];
   };
 }
