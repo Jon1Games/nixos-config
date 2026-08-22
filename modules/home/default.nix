@@ -32,5 +32,6 @@
     ./zsh                             # shell
     ./nextcloud.nix
     ./keepass.nix
+    ./vscode.nix
   ];
 }
