@@ -67,6 +67,7 @@ in {
       Preferences = {
         "layout.css.prefers-color-scheme.content" = 1; 
         "ui.systemUsesDarkTheme" = 1;
+        "browser.startup.page" = 3;
       };
     };
   };
