@@ -10,5 +10,8 @@ if ! pgrep -x awww-daemon > /dev/null; then
     done
 fi
 
+# reload env
+source /etc/set-environment
+
 # Set wallpaper
 awww img -t none "$WALLPAPER_PATH" &
