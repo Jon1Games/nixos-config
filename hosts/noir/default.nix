@@ -1,9 +1,14 @@
 { ... }:
 {
   imports = [
+    # Hardware
     ./hardware-configuration.nix
-    ./../../modules/core
+    ./../../modules/periphery/g502hero.nix
 
+    # Software
+    ./../../modules/core
+    
+    # Theme
     #./../../modules/themes/forest.nix
     ./../../modules/themes/rimuru.nix
   ];
