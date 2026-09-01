@@ -5,7 +5,7 @@
 
     enableDefaultConfig = false;
 
-    matchBlocks = {
+    settings = {
       "*" = {
         controlMaster = "auto";
         controlPath = "~/.ssh/control-%r@%h:%p";

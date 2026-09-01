@@ -1,8 +1,8 @@
-{ pkgs, host, ... }:
+{ pkgs, host, username, ... }:
 {
 
   environment.sessionVariables = {
-    WALLPAPER_PATH = "/home/jon1games/nixos-config/backgrounds/rimuru_dimmed.jpg";
+    WALLPAPER_PATH = "/home/${username}/nixos-config/backgrounds/rimuru_dimmed.jpg";
   };
 
   fonts.fontconfig.defaultFonts = {
@@ -15,7 +15,7 @@
     emoji = [ "Noto Color Emoji" ];
   };
 
-  home-manager.users.jon1games = {
+  home-manager.users.${username} = {
     programs.ghostty.settings = {
       theme = "gruvbox";
       background-opacity = 0.5;
@@ -25,7 +25,7 @@
       mouse-hide-while-typing = true;
     };
 
-    programs.vscode.userSettings = {
+    programs.vscode.profiles.default.userSettings = {
         "workbench.colorTheme" = "Dracula";
         "workbench.iconTheme" = "vs-seti";
         "editor.fontFamily" = "'Maple Mono', 'JetBrainsMono Nerd Font', monospace";

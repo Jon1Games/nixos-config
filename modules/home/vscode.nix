@@ -5,12 +5,12 @@
     enable = true;
     package = pkgs.vscode; 
 
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       dracula-theme.theme-dracula
       jnoortheen.nix-ide
     ];
 
-    userSettings = {
+    profiles.default.userSettings = {
       "telemetry.telemetryLevel" = "off";
       "update.mode" = "none"; # Updates werden sauber über NixOS verwaltet
     };
