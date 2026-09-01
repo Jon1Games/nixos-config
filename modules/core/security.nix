@@ -1,6 +1,23 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
+
+let
+  # Fetch and build linux-id from source since it's typically an AUR/external package
+  linux-id = pkgs.buildGoModule rec {
+    pname = "linux-id";
+    version = "0.2.3";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "matejsmycka";
+      repo = "linux-id";
+      rev = "v${version}";
+      sha256 = "sha256-0lO4lIga/tYzXDOGxYREr2Bgu1P6/3GH67ijivl42D8="; # Replace with actual hash after first build attempt
+    };
+
+    vendorHash = "sha256-vmWYSlCP09cVgQa7owAZeDzGfEdMHOqQlqDuzTkRjdI="; # Replace with actual vendor hash if dependencies require it
+  };
+in
 {
-  services.pcscd.enable = true; # Needed if using YubiKey PIV/GPG/CCID features
+  services.pcscd.enable = true;
 
   security = {
     rtkit.enable = true;
@@ -11,35 +28,44 @@
       hyprlock.enableGnomeKeyring = true;
     };
 
-    pki.certificates = [
-      # GamingLounge.ME internal CA
-      ''
------BEGIN CERTIFICATE-----
-MIICsDCCAlegAwIBAgIUU2uqErtBdMCw2rhRHBQKkcTOvEIwCgYIKoZIzj0EAwMw
-ga0xCzAJBgNVBAYTAkRFMQwwCgYDVQQIDANOUlcxDzANBgNVBAcMBldpdHRlbjEV
-MBMGA1UECgwMR2FtaW5nTG91bmdlMQswCQYDVQQLDAJJVDE2MDQGA1UEAwwtR2Ft
-aW5nTG91bmdlIExvY2FsIFJvb3QgQ0EgaXQuZ2FtaW5nbG91bmdlLm1lMSMwIQYJ
-KoZIhvcNAQkBFhRpbmZvQGdhbWluZ2xvdW5nZS5tZTAeFw0yNjA1MDcwNzQ0Mjda
-Fw0zNjA1MDQwNzQ0MjdaMIGtMQswCQYDVQQGEwJERTEMMAoGA1UECAwDTlJXMQ8w
-DQYDVQQHDAZXaXR0ZW4xFTATBgNVBAoMDEdhbWluZ0xvdW5nZTELMAkGA1UECwwC
-SVQxNjA0BgNVBAMMLUdhbWluZ0xvdW5nZSBMb2NhbCBSb290IENBIGl0LmdhbWlu
-Z2xvdW5nZS5tZTEjMCEGCSqGSIb3DQEJARYUaW5mb0BnYW1pbmdsb3VuZ2UubWUw
-WTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAR0OfkuifwbXWGiho3up4WtwYz/K3OE
-NoHg+32zN1qhiyWjKPH/O+5gWvo3ez0T3DXqQmUc4ffYlWxo49nR5Mjmo1MwUTAd
-BgNVHQ4EFgQU4iUzE7Fg6QXd+LM7RCBesU7BSjIwHwYDVR0jBBgwFoAU4iUzE7Fg
-6QXd+LM7RCBesU7BSjIwDwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAwNHADBE
-AiBe1Q7/fPUq7d6hxQeLp/61vRAfXhfdC54mlT3tSinCdgIgXRzMTMeKD//kih5A
-4TFAxI4kp6KVXcMwVZpUx8sg57M=
------END CERTIFICATE-----
-      ''
-    ];
+    tpm2 = {
+      enable = true;
+      pkcs11.enable = true;
+      tctiEnvironment.enable = true;
+    };
   };
 
-  # Essential packages for managing keys
+  # Required kernel module and udev permissions for virtual USB HID emulation
+  boot.kernelModules = [ "uhid" ];
+
+  services.udev.extraRules = ''
+    KERNEL=="uhid", SUBSYSTEM=="misc", GROUP="input", MODE="0660"
+  '';
+
+  # Ensure your user has access to both TPM (tss) and input (uhid) groups
+  users.users.${username}.extraGroups = [ "tss" "input" ];
+
   environment.systemPackages = with pkgs; [
     yubikey-manager
     yubioath-flutter
     libu2f-host
     pam_u2f
+    tpm2-tools
+    pinentry-qt
+    linux-id
   ];
+
+  # Replace the old tpm-fido systemd user service with linux-id
+  systemd.user.services.linux-id = {
+    description = "Linux-ID CTAP2/FIDO2 TPM Passkey Daemon";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Environment = "PATH=${pkgs.pinentry-qt}/bin:${pkgs.lib.makeBinPath [ linux-id pkgs.tpm2-tools ]}";
+      ExecStart = "${linux-id}/bin/linux-id";
+      Restart = "always";
+    };
+  };
+
+  services.dbus.packages = [ pkgs.gcr ];
 }
