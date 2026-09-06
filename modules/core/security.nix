@@ -26,6 +26,7 @@ in
     pam.services = {
       swaylock.enableGnomeKeyring = true;
       hyprlock.enableGnomeKeyring = true;
+      login.enableGnomeKeyring = true;
     };
 
     tpm2 = {
