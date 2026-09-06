@@ -13,6 +13,7 @@
     ## Office
     libreoffice
     gnome-calculator
+    xournalpp
 
     ## Utility
     dconf-editor

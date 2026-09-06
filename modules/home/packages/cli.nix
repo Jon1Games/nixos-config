@@ -32,6 +32,7 @@
     translate-shell                   # cli translator
     woomer
     yt-dlp-light
+    traceroute
 
     ## TUI
     epy                               # ebook reader
