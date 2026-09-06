@@ -40,9 +40,9 @@
       "$mod, XF86Display, exec, toggle-display"
 
       # screenshot
-      ", Print, exec, screenshot --copy"
-      "$mod, Print, exec, screenshot --save"
-      "$mod SHIFT, Print, exec, screenshot --swappy"
+      ", Prior, exec, screenshot --copy"
+      "$mod, PageUp, exec, screenshot --save"
+      "$mod PageUp, PageUp, exec, screenshot --swappy"
 
       # OCR
       "$mod CTRL, O, exec, ocr"
