@@ -13,13 +13,22 @@
     ./../../modules/themes/rimuru.nix
   ];
 
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "performance";
+  };
 
-  # Force the kernel to bypass standard power management assumptions
-  # and explicitly command the motherboard via ACPI or PCI lanes.
-  # this fixed an error for me where the OS shutdown but the hardware remained active
-  boot.kernelParams = [ 
-    "reboot=acpi" 
-    "acpi=force" 
-  ];
+  # Some motherboards/firmware implementations ignore a normal ACPI poweroff and
+  # leave the board powered on even after the OS has halted. This forces the
+  # kernel to initialize ACPI more aggressively and lets the firmware perform the
+  # final poweroff sequence correctly.
+  #
+  # This needs a full rebuild + reboot to take effect.
+  boot = {
+    kernelParams = [
+      "acpi=force"
+      "reboot=acpi"
+      "apm=power_off"
+    ];
+  };
 }
