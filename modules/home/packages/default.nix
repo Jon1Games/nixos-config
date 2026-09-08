@@ -5,7 +5,6 @@
     ./dev.nix
     ./gui.nix
     ./nix.nix
-    ./audio.nix
     ./management.nix
   ];
 }
