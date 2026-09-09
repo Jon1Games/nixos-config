@@ -1,16 +1,22 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    pipewire
+    pipewire.jack
     easyeffects
     pulsemixer
     carla
     qpwgraph
     sfizz
-    soundfont-fluid r3
+    soundfont-fluid
     lsp-plugins
     calf
+    surge-XT
+    helm
+    zynaddsubfx
   ];
 
+  environment.pathsToLink = [ "/share/soundfonts" ];
   environment.variables = {
     LV2_PATH = "/run/current-system/sw/lib/lv2";
     LADSPA_PATH = "/run/current-system/sw/lib/ladspa";
@@ -19,17 +25,12 @@
     VST3_PATH = "/run/current-system/sw/lib/vst3";
   };
 
-  services.easyeffects = {
-    enable = true;
-    preset = "Default";
-  };
-
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable = true; # Stellt die JACK-Schnittstelle für Carla bereit
+    jack.enable = true;
   };
 }

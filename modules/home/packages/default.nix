@@ -7,4 +7,9 @@
     ./nix.nix
     ./management.nix
   ];
+
+  services.easyeffects = {
+    enable = true;
+    preset = "Default";
+  };
 }

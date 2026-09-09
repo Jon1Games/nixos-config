@@ -44,7 +44,7 @@ in
   '';
 
   # Ensure your user has access to both TPM (tss) and input (uhid) groups
-  users.users.${username}.extraGroups = [ "tss" "input" ];
+  users.users.${username}.extraGroups = [ "tss" "input" "wheel" "audio" "video"];
 
   environment.systemPackages = with pkgs; [
     yubikey-manager
