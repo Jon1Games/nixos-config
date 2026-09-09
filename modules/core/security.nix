@@ -37,7 +37,7 @@ in
   };
 
   # Required kernel module and udev permissions for virtual USB HID emulation
-  boot.kernelModules = [ "uhid" ];
+  boot.kernelModules = [ "uhid" "uinput" ];
 
   services.udev.extraRules = ''
     KERNEL=="uhid", SUBSYSTEM=="misc", GROUP="input", MODE="0660"

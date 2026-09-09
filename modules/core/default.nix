@@ -22,5 +22,6 @@
     #./qmk.nix			# VIA, VIAl, udev-rules
     ./piper.nix			# Gamingmouse
     ./audio.nix
+    ./printer.nix
   ];
 }
