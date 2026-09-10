@@ -11,7 +11,7 @@
     soundfont-fluid
     lsp-plugins
     calf
-    surge-XT
+    surge-xt
     helm
     zynaddsubfx
     vitalium
