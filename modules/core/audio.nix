@@ -14,16 +14,19 @@
     surge-XT
     helm
     zynaddsubfx
-  ];
+    vitalium
 
-  environment.pathsToLink = [ "/share/soundfonts" ];
-  environment.variables = {
-    LV2_PATH = "/run/current-system/sw/lib/lv2";
-    LADSPA_PATH = "/run/current-system/sw/lib/ladspa";
-    DSSI_PATH = "/run/current-system/sw/lib/dssi";
-    VST_PATH = "/run/current-system/sw/lib/vst";
-    VST3_PATH = "/run/current-system/sw/lib/vst3";
-  };
+    (makeDesktopItem {
+      name = "carla-pw-jack";
+      desktopName = "Carla (PipeWire-JACK)";
+      genericName = "Audio Plugin Host";
+      comment = "Launch Carla routed through PipeWire-JACK emulation";
+      exec = "${pkgs.pipewire}/bin/pw-jack ${pkgs.carla}/bin/carla";
+      icon = "carla";
+      categories = [ "AudioVideo" "Audio" ];
+      terminal = false;
+    })
+  ];
 
   security.rtkit.enable = true;
   services.pipewire = {
