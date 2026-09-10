@@ -14,7 +14,7 @@
     surge-xt
     helm
     zynaddsubfx
-    vitalium
+    vital
 
     (makeDesktopItem {
       name = "carla-pw-jack";
