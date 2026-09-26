@@ -30,7 +30,7 @@
         libraries = with pkgs.python3Packages; [ evdev mido python-rtmidi ];
       } ''
         import sys
-        from evdev import InputDevice, ecodes
+        from evdev import InputDevice, ecodes, list_devices
         import mido
         
         #############
@@ -41,8 +41,9 @@
         MIDI_CC_expression = 11   # expression pedal
         MIDI_CC_sustain = 64      # sustain pedal
         
+
         def find_g29_device():
-            device_paths = evdev.list_devices() 
+            device_paths = list_devices()
             for path in device_paths:
                 try:
                     dev = InputDevice(path)
@@ -52,15 +53,22 @@
                     continue
             return None
 
-        print("Scanning system for Logitech G29 Racing Wheel...", flush=True)
+
+        print(
+            "Scanning system for Logitech G29 Racing Wheel...",
+            flush=True
+        )
         device = find_g29_device()
         if not device:
             sys.exit(1)
-        print(f"Successfully auto-detected device at: {device.path} ({device.name})", flush=True)
+        print(
+            f"Successfully auto-detected device at: {device.path} ({device.name})",
+            flush=True
+        )
         
         try:
             output = mido.open_output('G29 Gas Pedal', virtual=True)
-            
+
             ##########
             # INPUTS #
             ##########
@@ -69,7 +77,12 @@
                 if event.type == ecodes.EV_ABS and event.code == 2:
                     # 8 bit -> 7 bit and inverting
                     midi_value = 127 - int((event.value / 255.0) * 127.0)
-                    msg = mido.Message('control_change', channel=MIDI_CHANNEL, control=MIDI_CC_sustain, value=midi_value)
+                    msg = mido.Message(
+                        'control_change',
+                        channel=MIDI_CHANNEL,
+                        control=MIDI_CC_sustain,
+                        value=midi_value
+                    )
                     output.send(msg)
                 # break pedal
                 # clutch pedal
