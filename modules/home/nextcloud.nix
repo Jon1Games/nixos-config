@@ -10,6 +10,14 @@
     startInBackground = true; # Launches minimized to the system tray
   };
 
+  wayland.windowManager.hyprland = {
+    settings = {
+      exec-once = [
+        "${pkgs.nextcloud-client}/bin/nextcloud --background"
+      ];
+    };
+  };
+
   # Optional: Ensure XDG autostart directories exist
   # This guarantees the desktop environment picks up the service
   xdg.enable = true;
