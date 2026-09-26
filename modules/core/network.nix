@@ -1,5 +1,10 @@
 { pkgs, host, ... }:
 {
+  services.netbird = {
+    enable = true;
+    useRoutingFeatures = "client";
+  };
+
   networking = {
     hostName = "${host}";
     networkmanager.enable = true;
@@ -22,20 +27,4 @@
     networkmanagerapplet
     wireguard-tools
   ];
-
-  networking.wg-quick.interfaces = {
-    wg0 = {
-      address = [ "172.31.31.8/24" ];
-      privateKeyFile = "/etc/wireguard/dumbeldore.priv";
-      peers = [
-        {
-          publicKey = "1zeGKTo6LzsVEhtcUZy3mcl1ZRTLVWvWIT/sC2iMUn0=";
-          allowedIPs = [ "172.31.31.0/24" "172.19.8.0/24" "172.19.9.0/24" ];
-          presharedKeyFile = "/etc/wireguard/dumbeldore.shared";
-	  endpoint = "37.114.39.172:51820";
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-  };
 }
