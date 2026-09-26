@@ -3,7 +3,9 @@
 {
   services.printing = {
     enable = true;
-    drivers = [ pkgs.epson-escpr ];
+    drivers = with pkgs; [
+      epson-escpr
+    ];
   };
 
   services.avahi = {
@@ -18,7 +20,7 @@
         name = "Epson_ET-2750";
         location = "ASB";
         deviceUri = "ipp://192.168.178.33:631/ipp/print";
-        model = "epson-escpr/Epson-ET-2750_Series-epson-escpr.ppd";
+        model = "everywhere";
       }
     ];
   };
