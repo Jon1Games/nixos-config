@@ -6,15 +6,7 @@
 }:
 let
   gtk-theme-name = "Nordic";
-  gtk-theme = pkgs.nordic {
-    colorVariants = [ "dark" ];
-    themeVariants = [ "green" ];
-    tweaks = [
-      "gruvbox"
-      "rimless"
-      "float"
-    ];
-  };
+  gtk-theme = pkgs.nordic;
   icon-theme-name = "Papirus-Dark";
 in
 {

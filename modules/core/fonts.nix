@@ -16,7 +16,7 @@
       noto-fonts-color-emoji
     ];
 
-    defaultFonts = {
+    fontconfig.defaultFonts = {
       monospace = [
         "Maple Mono"
         "JetBrainsMono Nerd Font"
