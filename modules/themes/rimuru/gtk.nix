@@ -5,10 +5,10 @@
   ...
 }:
 let
-  gtk-theme-name = ${gtk-theme-name}; #"Colloid-Green-Dark-Gruvbox"
-  gtk-theme = ${gtk-theme} { #pkgs.colloid-gtk-theme.override
-    colorVariants = ${gtk-colorVariants};   #dark
-    themeVariants = ${gtk-themeVariants}; # green
+  gtk-theme-name = "Nordic";
+  gtk-theme = pkgs.nordic {
+    colorVariants = [ "dark" ];
+    themeVariants = [ "green" ];
     tweaks = [
       "gruvbox"
       "rimless"

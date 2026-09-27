@@ -23,6 +23,5 @@
     ./piper.nix			# Gamingmouse
     ./audio.nix
     ./printer.nix
-    ./gtk.nix
   ];
 }

@@ -9,8 +9,8 @@
     ./../../modules/core
     
     # Theme
-    #./../../modules/themes/forest.nix
-    ./../../modules/themes/rimuru.nix
+    #./../../modules/themes/forest
+    ./../../modules/themes/rimuru
   ];
 
   powerManagement = {

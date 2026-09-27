@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, username, ... }:
 {
   environment.systemPackages = with pkgs; [
     nordic
@@ -11,14 +11,11 @@
     ./spicetify.nix
     ./vscode.nix
     ./xournalpp.nix
+    ./gtk.nix
   ];
 
   environment.sessionVariables = {
     WALLPAPER_PATH = "/home/${username}/nixos-config/backgrounds/rimuru_dimmed.jpg";
-    gtk-theme-name = "Nordic";
-    gtk-theme = pkgs.nordic.override;
-    gtk-themeVariants = [ "green" ];
-    gtk-colorVariants = [ "dark" ];
   };
 
   home-manager.users.${username}.home.sessionVariables = {
