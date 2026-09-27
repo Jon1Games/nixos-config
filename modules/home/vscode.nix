@@ -12,7 +12,7 @@
 
     profiles.default.userSettings = {
       "telemetry.telemetryLevel" = "off";
-      "update.mode" = "none"; # Updates werden sauber über NixOS verwaltet
+      "update.mode" = "none";
     };
   };
 }

@@ -6,6 +6,7 @@
     ./gui.nix
     ./nix.nix
     ./management.nix
+    ./latex.nix
   ];
 
   services.easyeffects = {
