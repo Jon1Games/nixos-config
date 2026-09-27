@@ -10,6 +10,7 @@
   };
 
   systemd.services.g29-midi-bridge = {
+    enable = false;
     description = "Logitech G29 mappings";
     wantedBy = [ "multi-user.target" ];
     after = [ "sound.target" ];
