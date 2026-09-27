@@ -12,7 +12,6 @@
     ./ghostty/ghostty.nix             # terminal (in use and opened by super + enter)
     ./git.nix                         # version control
     ./gnome.nix                       # gnome apps
-    ./gtk.nix                         # gtk theme
     ./hyprland                        # window manager
     ./kitty.nix                       # terminal (as dependency rg. for image display image in shell)
     ./lazygit.nix

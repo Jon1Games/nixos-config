@@ -15,5 +15,15 @@
       # twemoji-color-font
       noto-fonts-color-emoji
     ];
+
+    defaultFonts = {
+      monospace = [
+        "Maple Mono"
+        "JetBrainsMono Nerd Font"
+      ];
+      sansSerif = [ "Public Sans" ];
+      serif = [ "Noto Serif" ];
+      emoji = [ "Noto Color Emoji" ];
+    };
   };
 }

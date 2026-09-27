@@ -5,10 +5,10 @@
   ...
 }:
 let
-  gtk-theme-name = "Colloid-Green-Dark-Gruvbox";
-  gtk-theme = pkgs.colloid-gtk-theme.override {
-    colorVariants = [ "dark" ];
-    themeVariants = [ "green" ];
+  gtk-theme-name = ${gtk-theme-name}; #"Colloid-Green-Dark-Gruvbox"
+  gtk-theme = ${gtk-theme} { #pkgs.colloid-gtk-theme.override
+    colorVariants = ${gtk-colorVariants};   #dark
+    themeVariants = ${gtk-themeVariants}; # green
     tweaks = [
       "gruvbox"
       "rimless"
@@ -22,7 +22,6 @@ in
     enable = true;
     font = {
       name = "Maple Mono";
-      size = if (host == "p14s") then 14 else 12;
     };
     theme = {
       name = gtk-theme-name;
