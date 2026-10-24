@@ -5,9 +5,18 @@
       enable = true;
       enable32Bit = true;
     };
+    keyboard.qmk.enable = true;
     enableRedistributableFirmware = true;
     opentabletdriver.enable = true;
   };
+
+  services.udev.extraRules = ''
+    # Keychron WebHID / Launcher rules
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+    
+    # Optional: Rules for flashing firmware (Bootloader mode)
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="3434", MODE="0660", GROUP="users", TAG+="uaccess"
+  '';
 
   systemd.services.g29-midi-bridge = {
     enable = false;
