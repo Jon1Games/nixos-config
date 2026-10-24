@@ -32,5 +32,6 @@
     ./nextcloud.nix
     ./keepass.nix
     ./vscode.nix
+    ./thunderbird.nix
   ];
 }
