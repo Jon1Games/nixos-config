@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  secrets = import ../../../secrets.nix;
+  secrets = import ../../secrets.nix;
 in {
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
