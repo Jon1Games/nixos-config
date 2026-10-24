@@ -5,6 +5,7 @@
     amberol # music player
     audacity
     gimp
+    inkscape
     media-downloader
     pavucontrol
     video-trimmer
@@ -21,6 +22,7 @@
     popsicle
     mission-center # GUI resources monitor
     zenity
+    dbeaver-bin
 
     ## remote support
     rustdesk-flutter
