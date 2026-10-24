@@ -24,5 +24,6 @@
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
     GRIMBLAST_HIDE_CURSOR = 0;
+    OZONE_PLATFORM_HINT = "wayland";
   };
 }

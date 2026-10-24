@@ -29,6 +29,13 @@
       "match:class ^(zen)$, idle_inhibit fullscreen"
 
       "match:class ^(xdg-desktop-portal-gtk)$, dim_around on"
+      "match:class ^(xdg-desktop-portal-gtk)$, float on"
+      "match:class ^(xdg-desktop-portal-gtk)$, size 550 600"
+      "match:class ^(xdg-desktop-portal-gtk)$, center on"
+      "match:title ^(Select a window to share)$, dim_around on"
+      "match:title ^(Select a window to share)$, float on"
+      "match:title ^(Select a window to share)$, size 550 600"
+      "match:title ^(Select a window to share)$, center on"
 
       "match:xwayland true, rounding 0"
 
