@@ -46,6 +46,7 @@ in {
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "browser.tabs.allowTabSourceInTitlebar" = true;
+        "helpers.private_mime_types" = "acs=text/plain,base64=text/plain";
       };
     };
 
