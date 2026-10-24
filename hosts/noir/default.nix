@@ -26,9 +26,11 @@
   # This needs a full rebuild + reboot to take effect.
   boot = {
     kernelParams = [
-      "acpi=force"
-      "reboot=acpi"
-      "apm=power_off"
+      "acpi_cpufreq"
+      "nowatchdog"
+      "reboot=p,a"
+      # "intel_idle.max_cstate=1" # Use only if testing an Intel CPU that fails to downclock on shutdown
+      #"modprobe.blacklist=iTCO_wdt" # Disables Intel watchdog driver
     ];
   };
 }
