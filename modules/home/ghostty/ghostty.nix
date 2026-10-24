@@ -31,6 +31,7 @@
       app-notifications = "no-clipboard-copy";
 
       bell-features = "no-attention,no-audio,no-system,no-title,no-border";
+      shell-integration-features = "ssh-terminfo,ssh-env";
 
       gtk-single-instance = false;
       gtk-tabs-location = "bottom";
