@@ -1,8 +1,7 @@
 { pkgs, ... }:
 {
-  programs.hyprland = {
-    enable = true;
-  };
+  programs.hyprland.enable = true;
+  programs.ydotool.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -20,7 +19,6 @@
 
     extraPortals = [ 
       pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
     ];
   };
 }

@@ -1,11 +1,11 @@
 { ... }:
-{
+{ 
   wayland.windowManager.hyprland.settings = {
     binds = {
       scroll_event_delay = 100;
       movefocus_cycles_fullscreen = true;
     };
-
+    
     bind = [
       # show keybinds list
       "$mod, F1, exec, show-keybinds"
@@ -133,6 +133,10 @@
 
       # clipboard manager
       "$mod, V, exec, toggle-rofi \"cliphist list | rofi -dmenu -theme-str 'window {width: 50%;} listview {columns: 1;}' | cliphist decode | wl-copy\""
+
+      # fx keys
+      ", code:196, exec, /home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-2guns.sh"
+      ", code:195, exec, /home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-3guns.sh"
     ];
 
     # mouse binding
