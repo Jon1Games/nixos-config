@@ -7,7 +7,7 @@
         owner = "Comfy-Themes";
         repo = "Spicetify";
         rev = "b3f8a24e444521887c21be5c69fc05a498a47664";
-        hash = "sha256-sqvmSXJMLE2in/cB8ZIJE/t4J5D0PKRddWECdYJjgX0=";
+        hash = "sha256-s4hHmMHic6zcON7f42XdObYwgut/KrSk2Bvz6jMTJYs=";
       };
     };
     customColorScheme = {
