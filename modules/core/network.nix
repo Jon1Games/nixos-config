@@ -19,7 +19,7 @@
       ];
     };
     networkmanager.plugins = with pkgs; [
-      networkmanager-sstp
+      #networkmanager-sstp
     ];
   };
 
