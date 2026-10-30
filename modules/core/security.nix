@@ -67,6 +67,4 @@ in
       Restart = "always";
     };
   };
-
-  services.dbus.packages = [ pkgs.gcr ];
 }
