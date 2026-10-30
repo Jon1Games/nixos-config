@@ -9,7 +9,7 @@
 
   imports = [
     ./spicetify.nix
-    ./vscode.nix
+    #./vscode.nix
     ./xournalpp.nix
   ];
 
