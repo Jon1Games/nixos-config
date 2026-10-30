@@ -85,5 +85,8 @@
 
     winetricks
     wineWow64Packages.waylandFull
+
+    # security
+    trivy
   ];
 }

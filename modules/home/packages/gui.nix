@@ -2,7 +2,7 @@
 {
   home.packages = with pkgs; [
     ## Multimedia
-    amberol # music player
+    #amberol # music player
     audacity
     gimp
     inkscape
@@ -26,5 +26,10 @@
 
     ## remote support
     rustdesk-flutter
+
+    ## 3d
+    blender
+
+    firefox # DRM streaming
   ];
 }
