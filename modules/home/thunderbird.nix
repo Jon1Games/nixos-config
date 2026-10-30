@@ -2,37 +2,33 @@
 
 let
   secrets = import ../../secrets.nix;
-in {
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    MOZ_ENABLE_WAYLAND = "1";
-  };
 
+in {
   accounts.email.accounts = {
-    workMail = {
-      primary = true;
-      address = secrets.workEmail;
-      realName = secrets.realName;
-      userName = secrets.workEmail;
-      
-      thunderbird = {
-        enable = true;
-        settings = id: {
-          "mail.server.server_${id}.authMethod" = 10; # 10 = OAuth2
-        };
-      };
-      
-      imap = {
-        host = "://office365.com";
-        port = 993;
-        tls.enable = true;
-      };
-      smtp = {
-        host = "://office365.com";
-        port = 587;
-        tls.enable = true;
-      };
-    };
+    #workMail = {
+    #  primary = true;
+    #  address = secrets.workEmail;
+    #  realName = secrets.realName;
+    #  userName = secrets.workEmail;
+    #  
+    #  thunderbird = {
+    #    enable = true;
+    #    settings = id: {
+    #      "mail.server.server_${id}.authMethod" = 10; # 10 = OAuth2
+    #    };
+    #  };
+    #  
+    #  imap = {
+    #    host = "outlook.office365.com";
+    #    port = 993;
+    #    tls.enable = true;
+    #  };
+    #  smtp = {
+    #    host = "smtp.office365.com";
+    #    port = 587;
+    #    tls.enable = true;
+    #  };
+    #};
 
     privateMail = {
       address = secrets.privateEmail;
@@ -54,18 +50,25 @@ in {
     };
   };
 
+
   programs.thunderbird = {
     enable = true;
-    
-    profiles.default = {
-      isDefault = true;
-      
-      settings = {
-        "privacy.donottrackheader.enabled" = true;
-        "mail.spellcheck.inline" = true;
-        "mail.spellcheck.inline.max-errors" = 100;
-        "browser.tabs.remote.autostart" = true; # Wichtig für flüssiges Rendering unter Wayland
+    package = pkgs.thunderbird-esr;
+
+    profiles = {
+      default = {
+        isDefault = true;
+        
+        settings = {
+          "privacy.donottrackheader.enabled" = true;
+          "mail.spellcheck.inline" = true;
+          "mail.spellcheck.inline.max-errors" = 100;
+        };
+        feedAccounts = {
+          "Security Feeds" = {};
+        };
       };
     };
   };
 }
+
