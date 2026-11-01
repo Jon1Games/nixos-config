@@ -6,7 +6,6 @@ let
 in {
   accounts.email.accounts = {
     #workMail = {
-    #  primary = true;
     #  address = secrets.workEmail;
     #  realName = secrets.realName;
     #  userName = secrets.workEmail;
@@ -31,6 +30,7 @@ in {
     #};
 
     privateMail = {
+      primary = true;
       address = secrets.privateEmail;
       realName = secrets.realName;
       userName = secrets.privateEmail;
