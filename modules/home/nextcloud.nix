@@ -9,8 +9,4 @@
     enable = true;
     startInBackground = true; # Launches minimized to the system tray
   };
-
-  wayland.windowManager.hyprland.settings.exec-once = [
-        "${pkgs.nextcloud-client}/bin/nextcloud --background"
-  ];
 }

@@ -34,9 +34,4 @@
     rssguard # RSS
     element-desktop
   ];
-
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "${pkgs.rssguard}/bin/rssguard"
-    "${pkgs.element-desktop}/bin/element-desktop --hidden"
-  ];
 }
