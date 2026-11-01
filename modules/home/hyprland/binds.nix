@@ -1,150 +1,151 @@
-{ ... }:
-{ 
+{ lib, ... }:
+let
+  mod = "SUPER";
+  lua = lib.generators.mkLuaInline;
+
+  # key + action (+ optional bind flags)
+  bind = key: action: { _args = [ key (lua action) ]; };
+  bindWith = opts: key: action: { _args = [ key (lua action) (lua opts) ]; };
+  locked = bindWith "{ locked = true }";
+  repeating = bindWith "{ repeating = true }";
+
+  # [[ ]] long strings so quotes inside commands don't need escaping
+  exec = cmd: ''hl.dsp.exec_cmd([[${cmd}]])'';
+
+  focusWs = ws: ''hl.dsp.focus({ workspace = "${ws}" })'';
+  focusDir = d: ''hl.dsp.focus({ direction = "${d}" })'';
+  moveWs = ws: ''hl.dsp.window.move({ workspace = "${ws}" })'';
+  moveWsSilent = ws: ''hl.dsp.window.move({ workspace = "${ws}", follow = false })'';
+  moveDir = d: ''hl.dsp.window.move({ direction = "${d}" })'';
+  fs = m: ''hl.dsp.window.fullscreen({ mode = "${m}" })'';
+
+  # hyprctl fallback for dispatchers I don't know the Lua name of
+  hctl = args: exec "hyprctl dispatch ${args}";
+
+  dirs = [
+    { k = "left";  v = "h"; d = "l"; vec = "-80 0"; }
+    { k = "right"; v = "l"; d = "r"; vec = "80 0"; }
+    { k = "up";    v = "k"; d = "u"; vec = "0 -80"; }
+    { k = "down";  v = "j"; d = "d"; vec = "0 80"; }
+  ];
+  dirName = { l = "left"; r = "right"; u = "up"; d = "down"; };
+
+  # workspaces 1..10 (key 0 = workspace 10)
+  workspaces = lib.genList (i: {
+    key = if i == 9 then "0" else toString (i + 1);
+    ws = toString (i + 1);
+  }) 10;
+in
+{
   wayland.windowManager.hyprland.settings = {
-    binds = {
-      scroll_event_delay = 100;
-      movefocus_cycles_fullscreen = true;
+    config = {
+      binds = {
+        scroll_event_delay = 100;
+        movefocus_cycles_fullscreen = true;
+      };
     };
-    
-    bind = [
-      # show keybinds list
-      "$mod, F1, exec, show-keybinds"
 
-      # keybindings
-      "$mod, Return, exec, ghostty --gtk-single-instance=true"
-      "ALT, Return, exec, [float; size 1111 700] ghostty"
-      "$mod SHIFT, Return, exec, [fullscreen] ghostty"
-      "$mod, B, exec, [workspace 1 silent] zen-beta"
-      "$mod, Q, killactive,"
-      "$mod, F, fullscreen, 0"
-      "$mod SHIFT, F, fullscreen, 1"
-      "$mod, Space, exec, toggle-float"
-      "$mod, D, exec, toggle-rofi rofi -show drun"
-      "$mod SHIFT, D, exec, vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"
-      "$mod, Escape, exec, hyprlock"
-      "ALT, Escape, exec, hyprlock & systemctl suspend"
-      "$mod SHIFT, Escape, exec, power-menu"
-      "$mod, P, exec, power-profile-menu"
-      "$mod, T, exec, toggle-oppacity"
-      "$mod, E, exec, nemo"
-      "ALT, E, exec, hyprctl dispatch exec '[float; size 1111 700] nemo'"
-      "$mod SHIFT, B, exec, toggle-waybar"
-      "$mod, C ,exec, hyprpicker -a"
-      "$mod, W,exec, wallpaper-picker"
-      "$mod SHIFT, W,exec, hyprctl dispatch exec '[float; size 925 615] waypaper'"
-      "$mod, N, exec, swaync-client -t -sw"
-      "CTRL SHIFT, Escape, exec, hyprctl dispatch exec '[workspace 9] missioncenter'"
-      "$mod, equal, exec, woomer"
-      # "$mod SHIFT, W, exec, vm-start"
+    bind =
+      [
+        # apps
+        (bind "${mod} + F1" (exec "show-keybinds"))
+        (bind "${mod} + Return" (exec "ghostty --gtk-single-instance=true"))
+        (bind "ALT + Return" (hctl "exec '[float; size 1111 700] ghostty'"))
+        (bind "${mod} + SHIFT + Return" (hctl "exec '[fullscreen] ghostty'"))
+        (bind "${mod} + B" (hctl "exec '[workspace 1 silent] zen-beta'"))
+        (bind "${mod} + D" (exec "toggle-rofi rofi -show drun"))
+        (bind "${mod} + SHIFT + D" (exec "vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland"))
+        (bind "${mod} + E" (exec "nemo"))
+        (bind "ALT + E" (hctl "exec '[float; size 1111 700] nemo'"))
+        (bind "${mod} + SHIFT + B" (exec "toggle-waybar"))
+        (bind "${mod} + C" (exec "hyprpicker -a"))
+        (bind "${mod} + W" (exec "wallpaper-picker"))
+        (bind "${mod} + SHIFT + W" (hctl "exec '[float; size 925 615] waypaper'"))
+        (bind "${mod} + N" (exec "swaync-client -t -sw"))
+        (bind "CTRL + SHIFT + Escape" (hctl "exec '[workspace 9] missioncenter'"))
+        (bind "${mod} + equal" (exec "woomer"))
+        (bind "${mod} + P" (exec "power-profile-menu"))
+        (bind "${mod} + T" (exec "toggle-oppacity"))
+        (bind "${mod} + XF86Display" (exec "toggle-display"))
+        (bind "${mod} + CTRL + O" (exec "ocr"))
 
-      "$mod, XF86Display, exec, toggle-display"
+        # session
+        (bind "${mod} + Escape" (exec "hyprlock"))
+        (bind "ALT + Escape" (exec "hyprlock & systemctl suspend"))
+        (bind "${mod} + SHIFT + Escape" (exec "power-menu"))
 
-      # screenshot
-      ", Print, exec, screenshot --copy"
-      "$mod, Print, exec, screenshot --save"
-      "$mod Print, PageUp, exec, screenshot --swappy"
+        # window state
+        (bind "${mod} + Q" "hl.dsp.window.close()")
+        (bind "${mod} + F" (fs "fullscreen"))
+        (bind "${mod} + SHIFT + F" (fs "maximized"))
+        (bind "${mod} + Space" (exec "toggle-float"))
 
-      # OCR
-      "$mod CTRL, O, exec, ocr"
+        # focus floating / tiled
+        (bind "CTRL + ALT + up" (hctl "focuswindow floating"))
+        (bind "CTRL + ALT + down" (hctl "focuswindow tiled"))
 
-      # switch focus
-      "$mod, left,  movefocus, l"
-      "$mod, right, movefocus, r"
-      "$mod, up,    movefocus, u"
-      "$mod, down,  movefocus, d"
-      "$mod, h, movefocus, l"
-      "$mod, j, movefocus, d"
-      "$mod, k, movefocus, u"
-      "$mod, l, movefocus, r"
+        # empty workspace
+        (bind "${mod} + CTRL + C" (moveWs "empty"))
 
-      "$mod, left,  alterzorder, top"
-      "$mod, right, alterzorder, top"
-      "$mod, up,    alterzorder, top"
-      "$mod, down,  alterzorder, top"
-      "$mod, h, alterzorder, top"
-      "$mod, j, alterzorder, top"
-      "$mod, k, alterzorder, top"
-      "$mod, l, alterzorder, top"
+        # scroll through workspaces
+        (bind "${mod} + mouse_down" (focusWs "e-1"))
+        (bind "${mod} + mouse_up" (focusWs "e+1"))
 
-      "CTRL ALT, up, exec, hyprctl dispatch focuswindow floating"
-      "CTRL ALT, down, exec, hyprctl dispatch focuswindow tiled"
+        # screenshots
+        (bind "Print" (exec "screenshot --copy"))
+        (bind "${mod} + Print" (exec "screenshot --save"))
+        (bind "${mod} + SHIFT + Print" (exec "screenshot --swappy"))
 
-      # switch workspace
-      "$mod, 1, workspace, 1"
-      "$mod, 2, workspace, 2"
-      "$mod, 3, workspace, 3"
-      "$mod, 4, workspace, 4"
-      "$mod, 5, workspace, 5"
-      "$mod, 6, workspace, 6"
-      "$mod, 7, workspace, 7"
-      "$mod, 8, workspace, 8"
-      "$mod, 9, workspace, 9"
-      "$mod, 0, workspace, 10"
+        # clipboard
+        (bind "${mod} + V" (exec ''toggle-rofi "cliphist list | rofi -dmenu -theme-str 'window {width: 50%;} listview {columns: 1;}' | cliphist decode | wl-copy"''))
 
-      # same as above, but switch to the workspace
-      "$mod SHIFT, 1, movetoworkspacesilent, 1" # movetoworkspacesilent
-      "$mod SHIFT, 2, movetoworkspacesilent, 2"
-      "$mod SHIFT, 3, movetoworkspacesilent, 3"
-      "$mod SHIFT, 4, movetoworkspacesilent, 4"
-      "$mod SHIFT, 5, movetoworkspacesilent, 5"
-      "$mod SHIFT, 6, movetoworkspacesilent, 6"
-      "$mod SHIFT, 7, movetoworkspacesilent, 7"
-      "$mod SHIFT, 8, movetoworkspacesilent, 8"
-      "$mod SHIFT, 9, movetoworkspacesilent, 9"
-      "$mod SHIFT, 0, movetoworkspacesilent, 10"
-      "$mod CTRL, c, movetoworkspace, empty"
+        # fx keys
+        (bind "code:196" (exec "/home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-2guns.sh"))
+        (bind "code:195" (exec "/home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-3guns.sh"))
 
-      # window control
-      "$mod SHIFT, left, movewindow, l"
-      "$mod SHIFT, right, movewindow, r"
-      "$mod SHIFT, up, movewindow, u"
-      "$mod SHIFT, down, movewindow, d"
-      "$mod SHIFT, h, movewindow, l"
-      "$mod SHIFT, j, movewindow, d"
-      "$mod SHIFT, k, movewindow, u"
-      "$mod SHIFT, l, movewindow, r"
+        # mouse
+        (bind "${mod} + mouse:272" "hl.dsp.window.drag()")
+        (bind "${mod} + mouse:273" "hl.dsp.window.resize()")
+      ]
 
-      "$mod CTRL, left, resizeactive, -80 0"
-      "$mod CTRL, right, resizeactive, 80 0"
-      "$mod CTRL, up, resizeactive, 0 -80"
-      "$mod CTRL, down, resizeactive, 0 80"
-      "$mod CTRL, h, resizeactive, -80 0"
-      "$mod CTRL, j, resizeactive, 0 80"
-      "$mod CTRL, k, resizeactive, 0 -80"
-      "$mod CTRL, l, resizeactive, 80 0"
+      # media
+      ++ [
+        (bind "XF86AudioPlay" (exec "playerctl play-pause"))
+        (bind "XF86AudioNext" (exec "playerctl next"))
+        (bind "XF86AudioPrev" (exec "playerctl previous"))
+        (bind "XF86AudioStop" (exec "playerctl stop"))
+      ]
 
-      "$mod ALT, left, moveactive,  -80 0"
-      "$mod ALT, right, moveactive, 80 0"
-      "$mod ALT, up, moveactive, 0 -80"
-      "$mod ALT, down, moveactive, 0 80"
-      "$mod ALT, h, moveactive,  -80 0"
-      "$mod ALT, j, moveactive, 0 80"
-      "$mod ALT, k, moveactive, 0 -80"
-      "$mod ALT, l, moveactive, 80 0"
+      # focus (arrows + vim keys), then raise
+      ++ lib.concatMap (x: lib.concatMap (key: [
+        (bind "${mod} + ${key}" (focusDir (dirName.${x.d})))
+        (bind "${mod} + ${key}" (hctl "alterzorder top"))
+      ]) [ x.k x.v ]) dirs
 
-      # media and volume controls
-      ", XF86AudioPlay,exec, playerctl play-pause"
-      ", XF86AudioNext,exec, playerctl next"
-      ", XF86AudioPrev,exec, playerctl previous"
-      ", XF86AudioStop,exec, playerctl stop"
+      # move window in direction
+      ++ lib.concatMap (x: map (key:
+        bind "${mod} + SHIFT + ${key}" (moveDir (dirName.${x.d}))
+      ) [ x.k x.v ]) dirs
 
-      "$mod, mouse_down, workspace, e-1"
-      "$mod, mouse_up, workspace, e+1"
+      # nudge window
+      ++ lib.concatMap (x: map (key:
+        bind "${mod} + ALT + ${key}" (hctl "moveactive ${x.vec}")
+      ) [ x.k x.v ]) dirs
 
-      # clipboard manager
-      "$mod, V, exec, toggle-rofi \"cliphist list | rofi -dmenu -theme-str 'window {width: 50%;} listview {columns: 1;}' | cliphist decode | wl-copy\""
+      # resize (repeating)
+      ++ lib.concatMap (x: map (key:
+        repeating "${mod} + CTRL + ${key}" (hctl "resizeactive ${x.vec}")
+      ) [ x.k x.v ]) dirs
 
-      # fx keys
-      ", code:196, exec, /home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-2guns.sh"
-      ", code:195, exec, /home/jon1games/nixos-config/scripts/scripts/hypixel-zombies-3guns.sh"
-    ];
+      # workspaces
+      ++ lib.concatMap (w: [
+        (bind "${mod} + ${w.key}" (focusWs w.ws))
+        (bind "${mod} + SHIFT + ${w.key}" (moveWsSilent w.ws))
+      ]) workspaces
 
-    # mouse binding
-    bindm = [
-      "$mod, mouse:272, movewindow"
-      "$mod, mouse:273, resizewindow"
-    ];
-
-    bindl = [ ",switch:on:Lid Switch, exec, pidof hyprlock || hyprlock" ];
+      # lid switch
+      ++ [
+        (locked "switch:on:Lid Switch" (exec "pidof hyprlock || hyprlock"))
+      ];
   };
 }

@@ -1,13 +1,18 @@
 { pkgs, ... }:
 {
   wayland.windowManager.hyprland = {
-    settings.monitor = [ ",preferred,auto,auto" ];
-
+    settings.monitor = [
+      {
+        output = "";
+        mode = "preferred";
+        position = "auto";
+        scale = "auto";
+      }
+    ];
+    
     extraConfig = ''
-      # hyprlang noerror true
-        source = ~/.config/hypr/monitors.conf
-        source = ~/.config/hypr/workspaces.conf
-      # hyprlang noerror false
+      require("monitors")
+      require("workspaces")
     '';
   };
 

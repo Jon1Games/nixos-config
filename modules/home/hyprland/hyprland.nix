@@ -21,7 +21,7 @@
     enable = true;
     package = null;
 
-    configType = "hyprlang";
+    configType = "lua";
 
     xwayland = {
       enable = true;

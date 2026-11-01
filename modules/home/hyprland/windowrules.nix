@@ -1,60 +1,97 @@
-{ ... }:
+{ lib, ... }:
+let
+  cls = c: { class = "^(${c})$"; };
+  title = t: { title = "^(${t})$"; };
+
+  rule = name: match: effects: { inherit name match; } // effects;
+
+  floatClasses = [
+    "imv"
+    "mpv"
+    "zenity"
+    "waypaper"
+    ".sameboy-wrapped"
+    "org.gnome.Calculator"
+    "org.gnome.FileRoller"
+    "org.pulseaudio.pavucontrol"
+  ];
+
+  portalEffects = {
+    dim_around = true;
+    float = true;
+    size = "550 600";
+    center = true;
+  };
+in
 {
   wayland.windowManager.hyprland.settings = {
-    windowrule = [
-      "match:class ^(imv)$, float on"
-      "match:class ^(mpv)$, float on"
-      "match:class ^(zenity)$, float on"
-      "match:class ^(waypaper)$, float on"
-      "match:class ^(.sameboy-wrapped)$, float on"
-      "match:class ^(org.gnome.Calculator)$, float on"
-      "match:class ^(org.gnome.FileRoller)$, float on"
-      "match:class ^(org.pulseaudio.pavucontrol)$, float on"
+    window_rule =
+      # float
+      (map (c: rule "float-${c}" (cls c) { float = true; }) floatClasses)
+      ++ [
+        (rule "pin-rofi" (cls "rofi") { pin = true; })
+        (rule "pin-waypaper" (cls "waypaper") { pin = true; })
+        (rule "tile-aseprite" (cls "Aseprite") { tile = true; })
 
-      "match:class ^(rofi)$, pin on"
-      "match:class ^(waypaper)$, pin on"
+        (rule "size-zenity" (cls "zenity") { size = "850 500"; })
 
-      "match:class ^(Aseprite)$, tile on"
+        (rule "volume-control" (title "Volume Control") {
+          size = "700 450";
+          move = "40 55%";
+        })
 
-      "match:class ^(zenity)$, size 850 500"
+        (rule "pip" (title "Picture-in-Picture") {
+          pin = true;
+          float = true;
+        })
 
-      "match:title ^(Volume Control)$, size 700 450"
-      "match:title ^(Volume Control)$, move 40 55%"
+        # idle inhibit
+        (rule "idle-mpv" (cls "mpv") { idle_inhibit = "focus"; })
+        (rule "idle-youtube" {
+          class = "^(zen-beta)$";
+          title = "^(.*YouTube.*)$";
+        } { idle_inhibit = "focus"; })
+        (rule "idle-zen" (cls "zen") { idle_inhibit = "fullscreen"; })
 
-      "match:title ^(Picture-in-Picture)$, pin on"
-      "match:title ^(Picture-in-Picture)$, float on"
+        # portals / screen share picker
+        (rule "portal-gtk" (cls "xdg-desktop-portal-gtk") portalEffects)
+        (rule "share-picker" (title "Select a window to share") portalEffects)
 
-      "match:class ^(mpv)$, idle_inhibit focus"
-      "match:class ^(zen-beta)$, match:title ^(.*YouTube.*)$, idle_inhibit focus"
-      "match:class ^(zen)$, idle_inhibit fullscreen"
+        (rule "xwayland-rounding" { xwayland = true; } { rounding = 0; })
 
-      "match:class ^(xdg-desktop-portal-gtk)$, dim_around on"
-      "match:class ^(xdg-desktop-portal-gtk)$, float on"
-      "match:class ^(xdg-desktop-portal-gtk)$, size 550 600"
-      "match:class ^(xdg-desktop-portal-gtk)$, center on"
-      "match:title ^(Select a window to share)$, dim_around on"
-      "match:title ^(Select a window to share)$, float on"
-      "match:title ^(Select a window to share)$, size 550 600"
-      "match:title ^(Select a window to share)$, center on"
+        # no gaps / borders when only one window
+        (rule "smart-gaps-w" {
+          float = false;
+          workspace = "w[tv1]";
+        } {
+          border_size = 0;
+          rounding = 0;
+        })
+        (rule "smart-gaps-f" {
+          float = false;
+          workspace = "f[1]";
+        } {
+          border_size = 0;
+          rounding = 0;
+        })
+      ];
 
-      "match:xwayland true, rounding 0"
-
-      # No gaps when only
-      "border_size 0, match:float 0, match:workspace w[tv1]"
-      "rounding 0, match:float 0, match:workspace w[tv1]"
-      "border_size 0, match:float 0, match:workspace f[1]"
-      "rounding 0, match:float 0, match:workspace f[1]"
+    layer_rule = [
+      {
+        name = "dim-rofi";
+        match.namespace = "rofi";
+        dim_around = true;
+      }
+      {
+        name = "dim-swaync";
+        match.namespace = "swaync-control-center";
+        dim_around = true;
+      }
     ];
 
-    layerrule = [
-      "match:namespace rofi, dim_around on"
-      "match:namespace swaync-control-center, dim_around on"
-    ];
-
-    # No gaps when only
-    workspace = [
-      "w[tv1], gapsout:0, gapsin:0"
-      "f[1], gapsout:0, gapsin:0"
+    workspace_rule = [
+      { workspace = "w[tv1]"; gaps_out = 0; gaps_in = 0; }
+      { workspace = "f[1]"; gaps_out = 0; gaps_in = 0; }
     ];
   };
 }

@@ -1,37 +1,45 @@
-{ pkgs, ... }:
-{
+{ pkgs, lib, ... }:
+let
+  mod = "SUPER";
+  lua = lib.generators.mkLuaInline;
+
+  bindWith = opts: key: action: { _args = [ key (lua action) (lua opts) ]; };
+  bind = key: action: { _args = [ key (lua action) ]; };
+  locked        = bindWith "{ locked = true }";
+  lockedRepeat  = bindWith "{ locked = true, repeating = true }";
+  repeating     = bindWith "{ repeating = true }";
+  onRelease     = bindWith "{ release = true }";
+
+  exec = cmd: ''hl.dsp.exec_cmd([[${cmd}]])'';
+in {
   home.packages = with pkgs; [ swayosd ];
 
-  wayland.windowManager.hyprland = {
-    settings = {
-      exec-once = [ "swayosd-server" ];
+  wayland.windowManager.hyprland.settings.bind = [
+    # mute / mic
+    (bind "XF86AudioMute" (exec "swayosd-client --output-volume mute-toggle"))
+    (bind "XF86AudioMicMute" (exec "toggle-mic"))
 
-      bind = [
-        ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
-        ", XF86AudioMicMute, exec, toggle-mic"
-      ];
-      bindl = [
-        "$mod, XF86MonBrightnessUp, exec, swayosd-client --brightness 100"
-        "$mod, XF86MonBrightnessDown, exec, swayosd-client --brightness 0"
-      ];
-      bindel = [
-        ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
-        ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
-      ];
-      binde = [
-        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume +2"
-        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume -2"
+    # brightness: jump to max / min
+    (locked "${mod} + XF86MonBrightnessUp" (exec "swayosd-client --brightness 100"))
+    (locked "${mod} + XF86MonBrightnessDown" (exec "swayosd-client --brightness 0"))
 
-        "$mod, f11, exec, swayosd-client --output-volume +2"
-        "$mod, f12, exec, swayosd-client --output-volume -2"
-      ];
-      bindr = [
-        "CAPS, Caps_Lock, exec, swayosd-client --caps-lock"
-        ", Scroll_Lock, exec, swayosd-client --scroll-lock"
-        ", Num_Lock, exec, swayosd-client --num-lock"
-      ];
-    };
-  };
+    # brightness: step (locked + repeating, like bindel)
+    (lockedRepeat "XF86MonBrightnessUp" (exec "swayosd-client --brightness raise"))
+    (lockedRepeat "XF86MonBrightnessDown" (exec "swayosd-client --brightness lower"))
+
+    # volume (repeating, like binde)
+    (repeating "XF86AudioRaiseVolume" (exec "swayosd-client --output-volume +2"))
+    (repeating "XF86AudioLowerVolume" (exec "swayosd-client --output-volume -2"))
+    (repeating "${mod} + F11" (exec "swayosd-client --output-volume +2"))
+    (repeating "${mod} + F12" (exec "swayosd-client --output-volume -2"))
+
+    # lock keys (on release, like bindr)
+    (onRelease "CAPS + Caps_Lock" (exec "swayosd-client --caps-lock"))
+    (onRelease "Scroll_Lock" (exec "swayosd-client --scroll-lock"))
+    (onRelease "Num_Lock" (exec "swayosd-client --num-lock"))
+  ];
+
+  services.swayosd.enable = true;
 
   xdg.configFile."swayosd/config.toml".text = ''
     [server]
