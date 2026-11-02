@@ -8,7 +8,7 @@ let
     video = [ "mpv.desktop" ];
     directory = [ "nemo.desktop" ];
     office = [ "libreoffice.desktop" ];
-    pdf = [ "org.gnome.Evince.desktop" ];
+    pdf = [ "zen-beta.desktop" ];
     terminal = [ "ghostty.desktop" ];
     archive = [ "org.gnome.FileRoller.desktop" ];
     discord = [ "webcord.desktop" ];
