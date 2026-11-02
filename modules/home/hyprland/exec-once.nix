@@ -32,6 +32,7 @@ in
       "hyprctl setcursor Bibata-Modern-Ice 24 &"
       "init-wallpaper &"
 
+      "${pkgs.netbird-ui}/bin/netbird-ui"
       "${pkgs.nextcloud-client}/bin/nextcloud --background"
       "${pkgs.rssguard}/bin/rssguard"
       "${pkgs.element-desktop}/bin/element-desktop --hidden"
